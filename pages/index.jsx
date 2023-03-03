@@ -1,11 +1,10 @@
-// index.html
 import React, { useState } from "react";
 import DB from "../core/firebase";
 import { collection, query, getDocs, where } from "firebase/firestore";
 
 function Header({ title }) {
   return <h1>{title ? title : "Default title"}</h1>;
-}
+} // this is a starter component from NextJS, ignore it.
 
 export default function HomePage() {
   const [cases, setCases] = useState([]);
@@ -14,21 +13,23 @@ export default function HomePage() {
   const renderList = cases.map((item, idx) => <div key={idx}>{item.topic}</div>);
 
   async function handleClick() {
-    setLoading(true)
+    setLoading(true) // show loading text
+
     const q = query(
       collection(DB, "Cases"),
-      where("email", "==", "david.pena@uac.edu.co")
-    );
+      where("email", "==", "john_doe@gmail.com")
+    ); // create query using where as your example
 
-    const querySnapshot = await getDocs(q);
+    const querySnapshot = await getDocs(q); // getting docs passing the query we created
 
-    const records = [];
+    const records = []; // here we will push our docs
     querySnapshot.forEach((doc) => {
-      console.log(doc.id, " => ", doc.data());
       records.push(doc.data());
     });
-    setCases(records);
-    setLoading(false)
+
+    setCases(records); // set our records in our state variables (cases)
+
+    setLoading(false) // hide loading text
   }
 
   return (
